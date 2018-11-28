@@ -1,0 +1,71 @@
+//to print the line count, word count, character count
+1) awk '{a+=1}{chars = chars+length($0)+1} {words = words+NF} END {print a,words,chars}' sample.txt
+   awk 'BEGIN{ v=0 } { v++ } END{ print v}' sample.txt
+
+//how to use mapping in awk using array
+2) awk ' { if($2==515042969) { a[$3]++ } } END { for(b in a) { x=x+1 } {print x}  }' sample.txt
+
+//
+3) awk '{if($2==515042969)x=x+$9} END{ print x}' sample.txt
+
+4) awk '{if($11==1) {print  $0}}' sample.txt
+
+5)awk '{if(($8 > 0.001) && ($8 < 0.009))x=x+1} END{print x}' sample.txt
+
+6)awk 'BEGIN{max=0}{if(length($0)>max){max = length($0)}}END{print max}' sample.txt 
+
+7)awk '{if(NR>=100 && NR<=200){print $2,$8,$9,$10}}' sample.txt
+  awk 'NR==100,NR==200{print $2,$8,$9,$10}' sample.txt
+
+8) awk '{if($7>0) print $0 > "sample0.txt" ; else print $0 > "sample1.txt"}' sample.txt
+
+9. awk 'NR%100==1{file="sample"++i".txt";}{print > file}' sample.txt
+10. awk '{$1=(++i FS $1);print $0}' sample.txt
+	awk '{print NR,$0}' sample.txt
+
+11. awk '{for(i=1;i<=(NF/2-((NF%2)/2));i++){temp=$i;$i=$(NF-i+1) FS;$(NF-i+1)=FS temp;}}{print $0}' sample.txt
+
+12. awk 'BEGIN{max=0;id=0;}{if(length($0)>max){max=length($0);id=$2;}}END{print max,id}' sample.txt
+
+13.  awk '{for(i=1;i<=(NF/2-((NF%2)/2));i++){temp=$i;$i=$(NF-i+1) FS;$(NF-i+1)=FS temp;}}{print}'
+
+14. awk '{days[$1]++}END{for(i in days){print i,":",days[i]}}' days.txt
+
+15. awk '{lines[$1]=$0}END{for(i in lines){print lines[i]}}' line.txt
+
+/*******Some Basic info about AWK*********/
+
+AWK
+    main syntax --> awk options 'selection_criteria {action }' input-file > output-file
+    -f program-file : Reads the AWK program source from the file 
+                    program-file, instead of from the 
+                    first command line argument.
+    -F fs           : Use fs for the input field separator
+    $awk '{print}' filename   by default awk prints every line of data
+    $ awk '/pattern/{print}' filename     prints all the lines which have patterns in them
+    If the line has 4 words, it will be stored in $1, $2, $3 and $4 respectively.
+    Also, $0 represents the whole line. 
+    $ awk '{print $1,$4}' filename   prints column 1 and 4 of all the lines
+    NR: NR command keeps a current count of the number of input records. Remember that records are usually lines.
+        Awk command performs the pattern/action statements once for each record in a file.
+    $ awk '{print NR,$0}' filename will print all the lines with their serial number in the beginning
+    NF: NF command keeps a count of the number of fields within the current input record.
+    $ awk '{print $1,$NF}' filename print 1st and last field of every line
+    $ awk 'NR==3, NR==6 {print NR,$0}' employee.txt display lines from 3 to 6
+    FS is used as field separator  by default white space or tab
+    $ awk 'NF > 0' geeksforgeeks.txt  to print any non empty line in file
+    $ awk '{ if (length($0) > max) max = length($0) } END { print max }' geeksforgeeks.txt
+        to get max length of any line
+    $ awk 'END { print NR }' geeksforgeeks.txt to count the lines int he file
+    $ awk '{ if($3 == "B6") print $0;}' geeksforgeeks.txt  to check for string in any column
+    $ awk 'BEGIN { for(i=1;i<=6;i++) print "square of", i, "is",i*i; }'  to print squares form 1 to 6
+    When the BEGIN pattern is used in a script, all the actions for BEGIN are executed once before any input line is read.
+    When all input lines have been read and dealt with, in case you specify the END pattern, the action(s) will be executed.
+    awk '
+            BEGIN{actions}
+            /patterns/{actions}
+            ...
+            END{actions}' filename
+
+
+
