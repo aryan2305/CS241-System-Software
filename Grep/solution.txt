@@ -1,0 +1,75 @@
+PROBLEM 1
+    1.
+        first make a file wih rwxrwxrw- (first of user then group then others) permission using chmod 776 filename
+        then use ls -Rl | grep "rwxrwxrw-"
+
+    2.
+        ls -al | grep "Aug" | wc -l (to count the number of lines)
+    3.
+        using du we have du -sh * | grep [0-9]M
+
+    4.
+        ls -al | grep -v Sep
+
+PROBLEM 2
+    1.
+        grep z.a words.txt 
+             z[^p]a will remove all having p in between 
+    2.
+        grep -e "apple" -e "papaya" -e "kiwi" words.txt 
+    3.
+        grep ^abid words.txt    all words starting with abid
+        grep abid$ words.txt    all words ending with abid
+
+        grep "^z\w*r\b" words.txt searches all word starting with z and ending with r 
+            w is word class \b matches word boundary
+    4.
+        grep ever$  words.txt
+    5.
+        grep [aeiou]{4} words.txt 
+    6.
+        grep '^.{8}$' words.txt | sort -r
+    7.
+        grep -e '^[nm].*oon' words.txt
+        s.* matches s followed by zero or more characters, for example: "s" and "saw" and "seed".
+
+
+
+PROBLEM 3
+    1.
+        sed 's/ernet.in/ac.in/g' Email_old.txt > Email_new.txt 
+    2.
+        sed 's/^public\b/private/g' Email_old.txt > Email_new.txt   converts one public but other one is still remaining which has tab before it
+    3.
+        sed 's/!*!/./g' msg.txt > new_msg.txt
+    4. sed -r 's/([A-Za-z]+) ([0-9]{1,2}), ([0-9]{4})/\2 \1 \3/g' Appointment_dates.txt
+
+
+
+
+AWK QUESTIONS
+    1.awk 'BEGIN{i=0}{i++;}END{print i}' sample.txt
+        semicolons are not necessary
+
+    2.awk '{if($2=="515042969") print $3}' sample.txt 
+      awk '{if($2=="515042969"){i+=$3}}END {print i}' sample.txt   to get sum of all these values
+    
+    3. awk '{if($2=="515042969"){i+=$3*$10}}END {print i}' sample.txt   product all the tasks with sidc usage
+
+    4.awk '{if($11==1) print $0}' sample.txt
+
+    5.awk '{if($8>0.001 && $8<0.009) print $0}' sample.txt 
+
+    6. awk '{if(length($0)>max){max=length($0)}}END {print max}' sample.txt 
+
+    7.awk 'NR==100,NR==200 {print NR,$2,$8,$9,$10}' sample.txt 
+
+    8.awk '{if($7<=0)print > sample1.txt;else print > sample0.txt}' sample.txt  
+        should work but not working 
+
+    9.awk 'NR%100==1{x="file"++i}{print > x}' sample.txt 
+
+    10.first make a file some values in it eg i made the serial numbers filie using 
+        awk '{print NR}' sample.txt > file.txt
+       then to add the two files use 
+       awk '{getline f1 < "file.txt";print f1,$0}' sample.txt > sample_file.txt
