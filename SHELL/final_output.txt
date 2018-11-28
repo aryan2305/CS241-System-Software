@@ -1,0 +1,2 @@
+Total no of files: 5
+Total no of directory: 30
